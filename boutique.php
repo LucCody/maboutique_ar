@@ -30,7 +30,8 @@ $nb_articles = isset($_SESSION['panier']) ? array_sum($_SESSION['panier']) : 0;
                 $stock = $p['stock'];
                 
                 echo "<div class='card'>";
-                    echo "<img src='$img_path' alt='Photo produit'>";
+                    // Remplace ta ligne <img> actuelle par celle-ci
+echo '<img src="images/' . $p . '" alt="Produit" onerror="this.src=\'images/default.jpg\'">';
                     
                     echo "<div class='card-content'>";
                         echo "<h3 style='margin:0 0 10px 0;'>" . htmlspecialchars($p['nom']) . "</h3>";
