@@ -142,3 +142,46 @@ body {
     align-items: center;
     gap: 6px;
 }
+
+/* --- ADAPTATION MOBILE --- */
+@media (max-width: 768px) {
+    /* 1. Le Menu : On le passe en colonne */
+    header {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+    
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    nav a {
+        margin: 0;
+        font-size: 0.8rem;
+    }
+
+    /* 2. La Grille : 1 seule colonne sur mobile */
+    .product-grid {
+        grid-template-columns: 1fr; /* Une seule carte par ligne */
+        gap: 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    /* 3. Les Tableaux : On les rend scrollables */
+    table {
+        display: block;
+        overflow-x: auto; /* Permet de glisser le tableau sur le côté */
+    }
+
+    /* 4. Les Cartes : On réduit un peu la taille des images */
+    .card img {
+        height: 150px;
+    }
+}
