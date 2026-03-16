@@ -1,0 +1,28 @@
+name: Deploiement Automatique vers InfinityFree
+
+on:
+  push:
+    branches:
+      - main # Se déclenche quand tu pousses sur la branche main
+
+jobs:
+  web-deploy:
+    name: Transférer les fichiers via FTP
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Récupérer le code de GitHub
+      uses: actions/checkout@v3
+
+    - name: 🚀 Envoyer vers InfinityFree
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./ # On envoie tout le dossier
+        server-dir: ./htdocs/ # On dépose tout dans htdocs sur le serveur
+        exclude: | # On ignore ces fichiers (très important)
+          **/.git*
+          **/.github*
+          db.php
+          config.php
