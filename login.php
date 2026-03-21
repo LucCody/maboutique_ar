@@ -3,14 +3,16 @@ include('db.php');
 include('header.php');
 
 if (isset($_POST['connexion'])) {
-    $stmt = $conn->prepare("SELECT * FROM utilisateurs WHERE pseudo = ?");
-    $stmt->bind_param("s", $_POST['pseudo']);
+    // Changement ici : On cherche par 'email' au lieu de 'pseudo'
+    $stmt = $conn->prepare("SELECT * FROM utilisateurs WHERE email = ?");
+    $stmt->bind_param("s", $_POST['email']);
     $stmt->execute();
     $res = $stmt->get_result();
+    
     if ($user = $res->fetch_assoc()) {
         if (password_verify($_POST['mdp'], $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['pseudo'] = $user['pseudo'];
+            $_SESSION['pseudo'] = $user['pseudo']; // On garde le pseudo en session pour l'affichage (bienvenue, etc.)
             $_SESSION['role'] = $user['role'];
             header("Location: " . ($user['role'] === 'admin' ? "admin_dashboard.php" : "boutique.php"));
             exit();
@@ -30,8 +32,8 @@ if (isset($_POST['connexion'])) {
             </div>
         <?php endif; ?>
 
-        <label for="pseudo">Pseudo</label>
-        <input type="text" id="pseudo" name="pseudo" placeholder="Votre pseudo" required>
+        <label for="email">Adresse E-mail</label>
+        <input type="email" id="email" name="email" placeholder="votre@email.com" required>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <label for="mdp" style="margin-bottom: 0;">Mot de passe</label>
