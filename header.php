@@ -5,7 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Inclusion de la connexion à la base de données
-include('db.php');
+// On utilise require_once pour s'assurer qu'elle n'est chargée qu'une fois
+require_once('db.php');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,7 +38,7 @@ include('db.php');
         body.dark-theme {
             --bg: #0f172a;
             --card: #1e293b;
-            --primary: #3b82f6; /* Un bleu légèrement plus clair pour le dark mode */
+            --primary: #3b82f6; 
             --primary-hover: #60a5fa;
             --text: #f8fafc;
             --text-muted: #94a3b8;
@@ -57,7 +58,7 @@ include('db.php');
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Transition douce pour le changement de thème */
+            transition: background-color 0.3s ease, color 0.3s ease; 
         }
 
         .container {
@@ -80,7 +81,7 @@ include('db.php');
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px); /* Joli effet de flou si le header est semi-transparent */
+            backdrop-filter: blur(10px); 
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
@@ -193,17 +194,4 @@ include('db.php');
         
         input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea {
             width: 100%; padding: 10px 12px; margin-bottom: 20px;
-            border: 1px solid var(--border); border-radius: 6px;
-            font-size: 1rem; transition: border-color 0.2s;
-            background: var(--input-bg);
-            color: var(--text);
-        }
-        input:focus, textarea:focus {
-            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        /* --- PRODUCT CARDS (For Boutique.php) --- */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; }
-        .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; height: 100%; transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease, border-color 0.3s ease; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .card-img-container { width: 100%; height: 180px; background: var(--card); border-bottom: 1px solid var(--border); display:flex; align-items:center; justify-content:center
+            border: 1px
