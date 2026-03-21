@@ -31,6 +31,7 @@ require_once('db.php');
             --header-bg: #ffffff;
             --badge-bg: #eff6ff;
             --input-bg: #ffffff;
+            --lang-hover-bg: #f3f4f6; /* Fond clair au survol pour le dropdown */
         }
 
         /* --- VARIABLES THEME SOMBRE --- */
@@ -45,11 +46,15 @@ require_once('db.php');
             --header-bg: rgba(15, 23, 42, 0.95);
             --badge-bg: rgba(59, 130, 246, 0.15);
             --input-bg: rgba(0, 0, 0, 0.2);
+            --lang-hover-bg: rgba(255, 255, 255, 0.05); /* Fond sombre au survol pour le dropdown */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* ANTI GOOGLE TRANSLATE BANNER - RÈGLE ABSOLUE */
         body {
+            top: 0 !important;
+            position: static !important;
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', sans-serif;
@@ -60,15 +65,20 @@ require_once('db.php');
             transition: background-color 0.3s ease, color 0.3s ease; 
         }
 
-        /* --- HIDE GOOGLE TRANSLATE DEFAULT UI --- */
-        .goog-te-banner-frame { display: none !important; visibility: hidden !important; }
-        iframe.goog-te-banner-frame { display: none !important; }
-        html { top: 0px !important; position: static !important; }
-        body { top: 0px !important; position: static !important; }
-        .goog-tooltip { display: none !important; }
-        .goog-tooltip:hover { display: none !important; }
-        .goog-text-highlight { background-color: transparent !important; border: none !important; box-shadow: none !important; }
+        /* Masquage agressif de la barre de traduction Google */
+        .VIpgJd-ZVi9od-ORHb-OEVmcd, 
+        .skiptranslate,
+        iframe.goog-te-banner-frame {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0px !important;
+            min-height: 0px !important;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
         #google_translate_element { display: none !important; }
+        .goog-tooltip { display: none !important; }
 
         .container {
             width: 100%;
@@ -109,20 +119,46 @@ require_once('db.php');
             gap: 15px; 
         }
 
-        /* --- CUSTOM LANGUAGE SELECTOR --- */
+        /* --- CUSTOM LANGUAGE SELECTOR DESIGN (AMÉLIORÉ) --- */
         .custom-lang-selector {
-            background: var(--input-bg);
-            color: var(--text);
+            background-color: transparent; /* Fond transparent pour plus d'élégance */
+            color: var(--text-muted);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 10px;
+            border-radius: 20px; /* Bords plus ronds pour correspondre au design du badge solde */
+            padding: 6px 14px;
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             outline: none;
             transition: all 0.2s ease;
+            appearance: none; /* Enlève la flèche par défaut native des navigateurs */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /* Ajoute une petite flèche discrète personnalisée */
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat, repeat;
+            background-position: right .7em top 50%, 0 0;
+            background-size: .65em auto, 100%;
+            padding-right: 2em; /* Laisse de la place pour la flèche */
         }
-        .custom-lang-selector:hover { border-color: var(--primary); }
+
+        .custom-lang-selector:hover {
+            color: var(--text);
+            border-color: var(--text-muted);
+            background-color: var(--lang-hover-bg);
+        }
+
+        .custom-lang-selector:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        
+        /* Styliser les options dans le dropdown (limité selon les navigateurs) */
+        .custom-lang-selector option {
+            background-color: var(--card); /* Fond solide pour les options (évite la transparence) */
+            color: var(--text);
+            font-weight: 500;
+        }
 
         /* --- BOUTON THEME TOGGLE --- */
         .theme-toggle-btn {
