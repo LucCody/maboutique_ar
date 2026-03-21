@@ -242,14 +242,66 @@ require_once('db.php');
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             document.documentElement.classList.add('dark-theme'); 
         }
-    </script>
-</head>
-<body class="">
+            
     <script>
-        if (document.documentElement.classList.contains('dark-theme')) {
-            document.body.classList.add('dark-theme');
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- TRANSLATE LOGIC ---
+        const customSelector = document.getElementById('customLangSelector');
+        
+        // 1. Mettre à jour le sélecteur pour qu'il affiche la bonne langue en changeant de page
+        const match = document.cookie.match(/(^|;) ?googtrans=([^;]*)(;|$)/);
+        if (match) {
+            const langCode = match[2].split('/')[2]; // Format habituel: /fr/en
+            if (langCode && ['en', 'mg'].includes(langCode)) {
+                customSelector.value = langCode;
+            } else {
+                customSelector.value = 'fr';
+            }
         }
-    </script>
+
+        // 2. Gérer le changement de langue
+        customSelector.addEventListener('change', function() {
+            let targetLang = this.value;
+            
+            if (targetLang === 'fr') {
+                // Si on revient en français (langue par défaut), on efface la traduction et on rafraîchit
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname;
+                window.location.reload();
+            } else {
+                // Sinon, on applique la traduction Google
+                let googleSelect = document.querySelector('.goog-te-combo');
+                if (googleSelect) {
+                    googleSelect.value = targetLang;
+                    googleSelect.dispatchEvent(new Event('change', { 'bubbles': true }));
+                }
+            }
+        });
+
+        // --- Menu Mobile ---
+        const btnMenu = document.getElementById('mobileMenuBtn');
+        const nav = document.getElementById('mainNav');
+        if (btnMenu && nav) {
+            btnMenu.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        // --- Theme Toggle ---
+        const themeBtn = document.getElementById('themeToggleBtn');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                document.documentElement.classList.toggle('dark-theme');
+                if (document.body.classList.contains('dark-theme')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+    });
+</script>
 
 <div id="google_translate_element"></div>
 
