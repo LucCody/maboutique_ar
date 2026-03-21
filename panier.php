@@ -1,5 +1,4 @@
 <?php
-    
 include('db.php');
 include('header.php');
 
@@ -34,11 +33,19 @@ if (isset($_GET['action']) && $_GET['action'] == "vider") { unset($_SESSION['pan
             <?php
             $total = 0;
             if (!empty($_SESSION['panier'])) {
+                // Prepare the statement ONCE outside the loop for better performance and security
+                $stmt = $conn->prepare("SELECT * FROM produits WHERE id = ?");
+                
                 foreach ($_SESSION['panier'] as $id => $qte) {
-                    $p = $conn->query("SELECT * FROM produits WHERE id = $id")->fetch_assoc();
-                    $sous_total = $p['prix'] * $qte;
-                    $total += $sous_total;
-                    echo "<tr><td>".$p['nom']."</td><td>$qte</td><td>".number_format($sous_total, 0, '.', ' ')." Ar</td></tr>";
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $p = $stmt->get_result()->fetch_assoc();
+                    
+                    if ($p) {
+                        $sous_total = $p['prix'] * $qte;
+                        $total += $sous_total;
+                        echo "<tr><td>".htmlspecialchars($p['nom'])."</td><td>$qte</td><td>".number_format($sous_total, 0, '.', ' ')." Ar</td></tr>";
+                    }
                 }
             }
             ?>
