@@ -9,13 +9,13 @@ if (isset($_POST['inscription'])) {
     $email = $_POST['email'];
     $mdp_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
-    // On vérifie si le pseudo existe déjà
-    $verif = $conn->prepare("SELECT id FROM utilisateurs WHERE pseudo = ?");
-    $verif->bind_param("s", $pseudo);
+    // Changement ici : On vérifie si l'EMAIL existe déjà (et non plus le pseudo)
+    $verif = $conn->prepare("SELECT id FROM utilisateurs WHERE email = ?");
+    $verif->bind_param("s", $email);
     $verif->execute();
     
     if ($verif->get_result()->num_rows > 0) {
-        $message = "<div style='background: #fee2e2; color: #991b1b; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #f87171;'>Ce pseudo est déjà utilisé.</div>";
+        $message = "<div style='background: #fee2e2; color: #991b1b; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #f87171;'>Un compte existe déjà avec cette adresse email.</div>";
     } else {
         $stmt = $conn->prepare("INSERT INTO utilisateurs (pseudo, email, password, role) VALUES (?, ?, ?, 'client')");
         $stmt->bind_param("sss", $pseudo, $email, $mdp_hache);
@@ -33,10 +33,10 @@ if (isset($_POST['inscription'])) {
         
         <?php echo $message; ?>
 
-        <label for="pseudo">Pseudo</label>
-        <input type="text" id="pseudo" name="pseudo" placeholder="Choisir un pseudo" required>
+        <label for="pseudo">Pseudo (Nom d'affichage)</label>
+        <input type="text" id="pseudo" name="pseudo" placeholder="Comment devons-nous vous appeler ?" required>
 
-        <label for="email">Email</label>
+        <label for="email">Adresse E-mail (Identifiant)</label>
         <input type="email" id="email" name="email" placeholder="votre@email.com" required>
 
         <label for="mdp">Mot de passe</label>
