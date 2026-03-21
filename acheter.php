@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('db.php'); // Remplacement de la connexion en dur
 
 // Sécurité : Si l'utilisateur n'est pas connecté, retour au login
 if (!isset($_SESSION['user_id'])) { 
@@ -7,26 +8,18 @@ if (!isset($_SESSION['user_id'])) {
     exit(); 
 }
 
-// Connexion à "ma_boutique"
-$conn = new mysqli("localhost", "root", "", "ma_boutique");
-
-// Vérification de la connexion
-if ($conn->connect_error) {
-    die("Erreur de connexion : " . $conn->connect_error);
-}
-
 if (isset($_POST['commander'])) {
     $produit = $_POST['produit'];
     $prix = $_POST['prix'];
-    $user_id = $_SESSION['user_id']; // On récupère l'ID de la personne connectée
+    $user_id = $_SESSION['user_id']; 
 
     // On prépare l'insertion dans la table "commandes"
     $stmt = $conn->prepare("INSERT INTO commandes (produit, prix, user_id) VALUES (?, ?, ?)");
-    $stmt->bind_param("sdi", $produit, $prix, $user_id); // s=string, d=decimal, i=integer
+    $stmt->bind_param("sdi", $produit, $prix, $user_id); 
 
     if ($stmt->execute()) {
         echo "<h3 style='color:green'>Commande réussie !</h3>";
-        echo "<p>Produit : <strong>$produit</strong> | Prix : <strong>$prix €</strong></p>";
+        echo "<p>Produit : <strong>" . htmlspecialchars($produit) . "</strong> | Prix : <strong>$prix €</strong></p>";
         echo "<a href='liste.php'>Retour à la liste</a> | <a href='mes_commandes.php'>Voir toutes les commandes</a>";
     } else {
         echo "Erreur lors de l'achat : " . $conn->error;
@@ -43,7 +36,7 @@ if (isset($_POST['commander'])) {
 </head>
 <body>
     <h2>Passer une commande</h2>
-    <p>Connecté en tant que : <strong><?php echo $_SESSION['pseudo']; ?></strong> (ID: <?php echo $_SESSION['user_id']; ?>)</p>
+    <p>Connecté en tant que : <strong><?php echo htmlspecialchars($_SESSION['pseudo']); ?></strong> (ID: <?php echo $_SESSION['user_id']; ?>)</p>
 
     <form method="POST">
         <label>Nom du produit :</label><br>
