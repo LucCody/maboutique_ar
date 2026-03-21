@@ -12,7 +12,7 @@ include('db.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Shop - Premium Services</title>
+    <title>Expert Model - Premium Services</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -181,7 +181,7 @@ include('db.php');
 
 <header>
     <div class="logo">
-        <a href="index.php">Universal Shop</a>
+        <a href="index.php">Expert Model</a>
     </div>
     
     <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Ouvrir le menu">
