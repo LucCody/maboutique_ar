@@ -58,12 +58,13 @@ require_once('db.php');
             flex-direction: column;
             min-height: 100vh;
             transition: background-color 0.3s ease, color 0.3s ease; 
-            /* FORCE BODY TOP TO PREVENT GOOGLE TRANSLATE SHIFT */
-            top: 0px !important; 
         }
 
         /* --- HIDE GOOGLE TRANSLATE DEFAULT UI --- */
-        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+        .goog-te-banner-frame { display: none !important; visibility: hidden !important; }
+        iframe.goog-te-banner-frame { display: none !important; }
+        html { top: 0px !important; position: static !important; }
+        body { top: 0px !important; position: static !important; }
         .goog-tooltip { display: none !important; }
         .goog-tooltip:hover { display: none !important; }
         .goog-text-highlight { background-color: transparent !important; border: none !important; box-shadow: none !important; }
@@ -105,7 +106,7 @@ require_once('db.php');
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 15px; /* Espace entre le selecteur de langue, le thème et le menu mobile */
+            gap: 15px; 
         }
 
         /* --- CUSTOM LANGUAGE SELECTOR --- */
