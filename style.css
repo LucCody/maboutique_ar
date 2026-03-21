@@ -1,187 +1,88 @@
-/* --- VARIABLES --- */
-:root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --primary: #f39c12;
-    --primary-hover: #e67e22;
-    --secondary: #3498db;
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
-    --success: #22c55e;
-    --danger: #ef4444;
-}
-
-body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-/* --- GRILLE --- */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-/* --- CARTES PRODUITS --- */
-.card {
-    background: var(--card);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Important pour l'alignement */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    border-color: var(--primary);
-    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(243, 156, 18, 0.1);
-}
-
-/* Image */
-.card-img-container {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    background: #000;
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.card:hover img {
-    transform: scale(1.1);
-}
-
-/* Contenu */
-.card-content {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.card-content h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.25rem;
-    color: #fff;
-}
-
-.description {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 15px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limite à 2 lignes */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    height: 40px;
-}
-
-.price {
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: 20px;
-}
-
-/* --- BOUTONS --- */
-.btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    text-align: center;
-    font-weight: bold;
-    transition: 0.3s;
+/* --- HEADER UTILITY CLASSES --- */
+.mobile-menu-btn {
+    display: none;
+    background: none;
     border: none;
+    color: var(--text);
     cursor: pointer;
-    margin-top: auto; /* Pousse le bouton vers le bas */
+    padding: 5px;
+    transition: color 0.3s;
 }
 
-.btn-add {
-    background: linear-gradient(135deg, var(--primary), #d35400);
-    color: white;
+.mobile-menu-btn:hover {
+    color: var(--primary);
 }
 
-.btn-add:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+.badge-solde {
+    background: rgba(243, 156, 18, 0.15); 
+    color: #f39c12 !important; 
+    padding: 8px 15px; 
+    border-radius: 30px; 
+    border: 1px solid #f39c12; 
+    font-weight: bold;
 }
 
-.btn-disabled {
-    background: #334155;
-    color: var(--text-muted);
-    cursor: not-allowed;
-    opacity: 0.6;
+.badge-admin {
+    color: #f1c40f !important; 
+    font-weight: bold;
 }
 
-/* --- BADGES --- */
-.status-stock {
-    font-size: 0.8rem;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.text-danger {
+    color: var(--danger) !important; 
+    font-weight: 600;
 }
 
-/* --- ADAPTATION MOBILE --- */
+.btn-sm {
+    padding: 8px 20px; 
+    font-size: 0.9em;
+}
+
+/* --- MOBILE RESPONSIVE WITH JS DROPDOWN --- */
 @media (max-width: 768px) {
-    /* 1. Le Menu : On le passe en colonne */
     header {
-        flex-direction: column;
-        padding: 15px 20px;
+        flex-direction: row; /* Keep logo and button on same line */
+        flex-wrap: wrap;     /* Allow nav to drop below */
     }
-    
+
+    /* Show the hamburger button */
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* Hide the navigation by default on mobile */
     nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
+        display: none; 
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        gap: 15px;
+        border-top: 1px solid var(--border);
         margin-top: 15px;
     }
 
+    /* The JS class that reveals the menu */
+    nav.active {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
+    }
+
     nav a {
-        margin: 0;
-        font-size: 0.8rem;
-    }
-
-    /* 2. La Grille : 1 seule colonne sur mobile */
-    .product-grid {
-        grid-template-columns: 1fr; /* Une seule carte par ligne */
-        gap: 20px;
-    }
-
-    .container {
+        width: 100%;
+        text-align: center;
         padding: 10px;
+        background: rgba(255,255,255,0.03);
+        border-radius: 8px;
     }
 
-    /* 3. Les Tableaux : On les rend scrollables */
-    table {
-        display: block;
-        overflow-x: auto; /* Permet de glisser le tableau sur le côté */
-    }
+    .container { padding: 20px 15px; }
+    .product-grid { grid-template-columns: 1fr; gap: 20px; }
+    .card-img-container { height: 180px; }
 
-    /* 4. Les Cartes : On réduit un peu la taille des images */
-    .card img {
-        height: 150px;
+    /* Smooth dropdown animation */
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 }
