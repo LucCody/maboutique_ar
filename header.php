@@ -101,6 +101,13 @@ require_once('db.php');
             letter-spacing: -0.5px;
         }
 
+        /* ALIGNEMENT HORIZONTAL DES BOUTONS DE CONTROLE */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espace entre le selecteur de langue, le thème et le menu mobile */
+        }
+
         /* --- CUSTOM LANGUAGE SELECTOR --- */
         .custom-lang-selector {
             background: var(--input-bg);
@@ -187,7 +194,7 @@ require_once('db.php');
         /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             header { flex-wrap: wrap; }
-            .header-controls { display: flex; align-items: center; gap: 10px; }
+            .header-controls { gap: 10px; }
             .mobile-menu-btn { display: block; }
             nav { display: none; width: 100%; flex-direction: column; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
             nav.active { display: flex; }
@@ -274,7 +281,7 @@ require_once('db.php');
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'fr', 
-        includedLanguages: 'fr,en,mg', // Français, English, Malagasy
+        includedLanguages: 'fr,en,mg', 
         autoDisplay: false
     }, 'google_translate_element');
 }
@@ -292,7 +299,6 @@ function googleTranslateElementInit() {
             
             if (googleSelect) {
                 googleSelect.value = targetLang;
-                // Déclencher l'événement de changement pour que Google Translate s'active
                 googleSelect.dispatchEvent(new Event('change', { 'bubbles': true }));
             }
         });
