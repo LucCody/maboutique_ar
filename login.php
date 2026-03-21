@@ -16,14 +16,35 @@ if (isset($_POST['connexion'])) {
             exit();
         }
     }
-    $err = "Identifiants incorrects.";
+    $err = "Identifiants incorrects. Veuillez réessayer.";
 }
 ?>
-<form method="POST" style="margin: 50px auto;">
-    <h2>Connexion</h2>
-    <?php if(isset($err)) echo "<p style='color:red;'>$err</p>"; ?>
-    <input type="text" name="pseudo" placeholder="Pseudo" required>
-    <input type="password" name="mdp" placeholder="Mot de passe" required>
-    <button type="submit" name="connexion" class="btn" style="width:100%;">Se connecter</button>
-</form>
+
+<div class="container auth-wrapper">
+    <form method="POST">
+        <h2>Connexion</h2>
+        
+        <?php if(isset($err)): ?>
+            <div style="background: #fee2e2; color: #991b1b; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #f87171;">
+                <?php echo $err; ?>
+            </div>
+        <?php endif; ?>
+
+        <label for="pseudo">Pseudo</label>
+        <input type="text" id="pseudo" name="pseudo" placeholder="Votre pseudo" required>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label for="mdp" style="margin-bottom: 0;">Mot de passe</label>
+            <a href="forgot_password.php" style="font-size: 0.85rem; color: var(--primary); text-decoration: none; font-weight: 500;">Oublié ?</a>
+        </div>
+        <input type="password" id="mdp" name="mdp" placeholder="••••••••" required>
+
+        <button type="submit" name="connexion" class="btn" style="width:100%; margin-top: 10px;">Se connecter</button>
+        
+        <p style="text-align: center; margin-top: 24px; font-size: 0.9rem; color: var(--text-muted);">
+            Pas encore de compte ? <a href="register.php" style="color: var(--primary); font-weight: 500; text-decoration: none;">Inscrivez-vous</a>
+        </p>
+    </form>
+</div>
+
 <?php include('footer.php'); ?>
