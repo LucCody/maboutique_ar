@@ -13,16 +13,18 @@ $nb_articles = isset($_SESSION['panier']) ? array_sum($_SESSION['panier']) : 0;
 ?>
 
 <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px;">
         <div>
-            <h1 style="margin:0; font-size: 2.2rem;">🚀 Catalogue <span style="color:var(--primary);">Premium</span></h1>
-            <p style="color:var(--text-muted); margin: 5px 0 0 0;">Les meilleurs produits digitaux au meilleur prix.</p>
+            <h1 style="margin:0; font-size: 2rem; color: var(--text); letter-spacing: -0.5px;">Catalogue Premium</h1>
+            <p style="color:var(--text-muted); margin: 5px 0 0 0; font-size: 0.95rem;">Les meilleurs produits digitaux au meilleur prix.</p>
         </div>
         <div style="text-align: right;">
-            <p style="margin:0; font-size: 0.9rem;">Bienvenue, <strong style="color:var(--primary);"><?php echo htmlspecialchars($_SESSION['pseudo']); ?></strong></p>
-            <span style="font-size: 0.8rem; background: rgba(52, 152, 219, 0.1); color: var(--secondary); padding: 2px 8px; border-radius: 4px;">
+            <p style="margin:0; font-size: 0.9rem; color: var(--text-muted);">
+                Bienvenue, <strong style="color:var(--text);"><?php echo htmlspecialchars($_SESSION['pseudo']); ?></strong>
+            </p>
+            <a href="panier.php" style="display: inline-block; margin-top: 8px; font-size: 0.85rem; background: #eff6ff; color: var(--primary); padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: 500; border: 1px solid #bfdbfe; transition: 0.2s;">
                 🛒 <?php echo $nb_articles; ?> articles au panier
-            </span>
+            </a>
         </div>
     </div>
 
@@ -50,19 +52,23 @@ $nb_articles = isset($_SESSION['panier']) ? array_sum($_SESSION['panier']) : 0;
                         <h3><?php echo $nom; ?></h3>
                         <p class="description"><?php echo $desc; ?></p>
                         
-                        <div class="price"><?php echo $prix; ?> <small style="font-size: 0.8rem; color: var(--text-muted);">Ar</small></div>
+                        <div class="price"><?php echo $prix; ?> <small style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;">Ar</small></div>
                         
-                        <?php if ($stock > 0): ?>
-                            <div class="status-stock" style="color: var(--success);">
-                                <span>●</span> En stock (<?php echo $stock; ?>)
-                            </div>
-                            <a href="ajouter_panier.php?id=<?php echo $p['id']; ?>" class="btn btn-add">🛒 Ajouter au panier</a>
-                        <?php else: ?>
-                            <div class="status-stock" style="color: var(--danger);">
-                                <span>○</span> Rupture de stock
-                            </div>
-                            <button class="btn btn-disabled" disabled>Épuisé</button>
-                        <?php endif; ?>
+                        <div style="margin-top: auto;">
+                            <?php if ($stock > 0): ?>
+                                <div style="color: var(--success); font-size: 0.85rem; font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                                    <span style="display: inline-block; width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></span>
+                                    En stock (<?php echo $stock; ?>)
+                                </div>
+                                <a href="ajouter_panier.php?id=<?php echo $p['id']; ?>" class="btn" style="width: 100%;">Ajouter au panier</a>
+                            <?php else: ?>
+                                <div style="color: var(--danger); font-size: 0.85rem; font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                                    <span style="display: inline-block; width: 8px; height: 8px; background: var(--danger); border-radius: 50%;"></span>
+                                    Rupture de stock
+                                </div>
+                                <button class="btn" style="width: 100%; background: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none;" disabled>Épuisé</button>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
 
@@ -70,9 +76,9 @@ $nb_articles = isset($_SESSION['panier']) ? array_sum($_SESSION['panier']) : 0;
             }
         } else {
             ?>
-            <div style="grid-column: 1/-1; text-align:center; padding:80px; background:rgba(255,255,255,0.02); border-radius:20px; border: 1px dashed rgba(255,255,255,0.1);">
-                <p style="font-size: 1.2rem; color: var(--text-muted);">Aucun produit n'est disponible pour le moment.</p>
-                <a href="index.php" style="color: var(--primary); text-decoration: none;">Retour à l'accueil</a>
+            <div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; background: #ffffff; border-radius: 12px; border: 1px dashed var(--border);">
+                <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 15px;">Aucun produit n'est disponible pour le moment.</p>
+                <a href="index.php" class="btn btn-outline">Retour à l'accueil</a>
             </div>
             <?php
         }
