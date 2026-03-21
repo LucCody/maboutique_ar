@@ -54,7 +54,7 @@ if (isset($_GET['id'])) {
             <p>Réf : #<?php echo $f['id']; ?></p>
         </div>
         <div style="text-align:right;">
-            <strong>Ma Boutique Ar</strong><br>
+            <strong>Expert Model</strong><br>
             Antananarivo, Madagascar<br>
             contact@maboutique.mg
         </div>
