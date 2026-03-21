@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['user_id'])) { header("Location: login.php"); exit(); }
 
-$conn = new mysqli("localhost", "root", "", "ma_boutique");
+include('db.php'); // Remplacement de la connexion en dur
 
 // 1. On récupère l'ID du produit depuis l'URL (ex: id_produit=2)
 if (isset($_GET['id_produit'])) {
@@ -26,7 +26,7 @@ if (isset($_GET['id_produit'])) {
 
         if ($stmt_achat->execute()) {
             echo "<h2 style='color:green;'>Achat validé !</h2>";
-            echo "<p>Félicitations <strong>" . $_SESSION['pseudo'] . "</strong>, vous avez acheté : <strong>$nom_produit</strong></p>";
+            echo "<p>Félicitations <strong>" . htmlspecialchars($_SESSION['pseudo']) . "</strong>, vous avez acheté : <strong>" . htmlspecialchars($nom_produit) . "</strong></p>";
             echo "<p>Montant débité : <strong>" . number_format($prix_reel, 0, '.', ' ') . " Ar</strong></p>";
             echo "<hr>";
             echo "<a href='boutique.php'>Retour au catalogue</a> | <a href='mes_commandes.php'>Voir mes achats</a>";
